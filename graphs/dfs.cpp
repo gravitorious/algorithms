@@ -74,12 +74,10 @@ int main(){
 	//freopen("output.txt", "w", stdout);
 	
 	int tc, n;
-	queue<int> q;
 	cin >> tc;
 	for(int ff = 1; ff <= tc; ff++){
 		cin >> n;
 		bool visited[n+1] = {false};
-		int distance[n+1] = {0};
 		vector<int> graph[n+1];
 		graph[1].push_back(2);
 		graph[1].push_back(4);
@@ -94,25 +92,15 @@ int main(){
 		graph[6].push_back(3);
 		graph[6].push_back(5);
 		
-		int k;
-		function<void(int)> bfs = [&](int x){
-			while(!q.empty()){
-				k = q.front(); q.pop();
-				cout << k << "\n";
-				for(auto adj : graph[k]){
-					if(visited[adj] == true) continue;
-					visited[adj] = true;
-					q.push(adj);
-					distance[adj] = distance[k] + 1;
-				}
-			}
-			
+		function<void(int)> dfs = [&](int x){
+			if(visited[x]) return;
+			cout << x << "\n";
+			visited[x] = true;
+			for(auto adj : graph[x]) dfs(adj);
 			
 		};
 		int start = 1;
-		visited[start] = true;
-		q.push(start);
-		bfs(start);
+		dfs(start);
 	
 
 	}
